@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="/stylesheets/chatbot.css">
+<div class="chatbot-img">
+    <img src="/images/chatbot.gif" alt="Chat Bot">
+</div>
+<div class="chatbot-container">
+    <header>
+        <h1>💬 Gemini AI Assist</h1>
+        <p class="subtitle">Chat with Google's advanced AI Assist</p>
+    </header>
+
+    <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+            <div class="message">
+                <div class="avatar">AI</div>
+                <div class="message-content">
+                    Hello! I'm Gemini AI. How can I help you today?
+                    <div>Feel Free to Share anything(e.g. AI Write, Spell Check)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-container">
+            <form class="input-form" id="chatForm">
+                <textarea id="userInput" placeholder="Type your message here..." rows="1" required></textarea>
+                <button type="submit" id="sendButton">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/javascripts/chatbot.js"></script>

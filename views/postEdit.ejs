@@ -1,0 +1,117 @@
+<%-include("partials/header", { title: "Edit Post", user }) %>
+
+<link rel="stylesheet" href="/stylesheets/postEdit.css">
+
+<% if(error && error.length > 0) { %>
+    <div class="alert alert-danger" role="alert">
+        <%= error %>
+    </div>
+<% } if(success) { %>
+    <div class="alert alert-success" role="alert">
+        <%= success %>
+    </div>
+<% } %>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="form-card p-4">
+                <h2 class="mb-4 text-center">Edit Your Post</h2>
+
+                <!-- Edit Details Form -->
+                <form action="/posts/<%= post._id %>/edit" method="POST">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" name="title" id="title" class="form-control" value="<%= post.title %>" required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="category" class="form-label">Category</label>
+                            <select id="category" name="category" class="form-control" required>
+                                <option value="all" <%= post.category === 'all' ? 'selected' : '' %>>-Select-</option>
+                                <option value="Free" <%= post.category === 'Free' ? 'selected' : '' %>>Free</option>
+                                <option value="Paid" <%= post.category === 'Paid' ? 'selected' : '' %>>Paid</option>
+                                <option value="Recruiments" <%= post.category === 'Recruiments' ? 'selected' : '' %>>Recruiments</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="eventEndDate" class="form-label">Event End Date</label>
+                            <input type="date" id="eventEndDate" name="eventEndDate" class="form-control" value="<%= post.endDate ? post.endDate.toISOString().split('T')[0] : '' %>" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="club" class="form-label">Club</label>
+                            <input type="text" id="club" name="club" class="form-control" placeholder="Enter Club Name..." value="<%= post.club %>" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="registerlink" class="form-label">Registration Link</label>
+                            <input type="text" id="registerlink" name="registerlink" class="form-control" placeholder="Enter Link..." value="<%= post.registerlink %>" />
+                        </div>
+
+                        <div class="col-12">
+                            <label for="content" class="form-label">Content (Max 500 words)</label>
+                            <textarea name="content" id="content" class="form-control" rows="5" maxlength="500" required><%= post.content %></textarea>
+                        </div>
+                    </div>
+
+                    <div class="text-end mt-3">
+                        <button type="submit" class="btn btn-success px-4">Update</button>
+                    </div>
+                </form>
+
+                <!-- Image Update Form -->
+                <form action="/posts/<%= post._id %>/editImage" method="POST" enctype="multipart/form-data" class="mt-4">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="image" class="form-label">Replace Image</label>
+                            <input type="file" name="image" id="image" class="form-control" accept="image/*" onchange="ShowImage()" />
+                        </div>
+
+                        <% if (post.images?.length > 0) { %>
+                            <div class="col-md-6">
+                                <label class="form-label">Current Image:</label>
+                                <img src="<%= post.images[0].url %>" alt="Current Post Image" class="img-fluid rounded" style="max-height: 200px;" />
+                            </div>
+                        <% } %>
+
+                        <div class="col-md-6">
+                            <label class="form-label">New Image:</label>
+                            <img src="" id="imagePreview" alt="New Post Image" class="img-fluid rounded" style="max-height: 200px;" />
+                        </div>
+                    </div>
+
+                    <div class="text-end mt-3">
+                        <button type="submit" class="btn btn-primary px-4">Update Image</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const imageNew = document.getElementById("image")
+    const imagePreview = document.getElementById("imagePreview")
+    imagePreview.style.display="none"
+    function ShowImage() {
+        const file = imageNew.files[0]
+        handleImagePreview(file)
+    }
+    function handleImagePreview(file) {
+        const reader = new FileReader()
+        reader.onload = function (event) {
+            imagePreview.style.display = "block"
+            imagePreview.src = event.target.result
+        }
+        reader.readAsDataURL(file)
+    }
+</script>
+
+<div class="homeChatBot">
+    <%-include("partials/chatBot.ejs") %>
+</div>
+
+<%-include("partials/footer") %>

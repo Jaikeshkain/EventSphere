@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="/stylesheets/bestWishes.css">
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+    <button class="close-btn" id="closeSidebar">X</button>
+    <h3 id="sidebarClubName"></h3>
+    <div id="sidebarImage" class="sidebar-image"></div>
+    <p id="sidebarMessage"></p>
+  </div>
+</div>
+
+<div class="container my-4">
+  <h2 class="mb-4 text-white">Best Wishes from Clubs 💫</h2>
+
+  <div class="stories-container">
+    <!-- Add Story Button -->
+    <a href="/auth/addWishes" class="story-card add-wish-card">
+      <span class="plus-icon">+</span>
+    </a>
+
+    <!-- Loop through stories -->
+    <% wishes.forEach(story=> { %>
+      <div class="story-card" data-club="<%= story.club %>" data-message="<%= story.message %>"
+        data-img="<%= story.image.url %>">
+        <div class="story-img" style="background-image: url('<%= story.image.url %>');"></div>
+        <div class="story-name">
+          <%= story.club %>
+        </div>
+      </div>
+      <% }) %>
+  </div>
+</div>
+
+<script>
+  // Select the sidebar and close button
+    const sidebar = document.getElementById('sidebar');
+    const closeSidebarBtn = document.getElementById('closeSidebar');
+
+    // Handle story card click
+    document.querySelectorAll('.story-card').forEach(card => {
+      card.addEventListener('click', function () {
+        // Get the story details
+        const club = this.getAttribute('data-club');
+        const message = this.getAttribute('data-message');
+        const imageUrl = this.getAttribute('data-img');
+
+        // Set the details in the sidebar
+        document.getElementById('sidebarClubName').innerText = club;
+        document.getElementById('sidebarMessage').innerText = message;
+        document.getElementById('sidebarImage').style.backgroundImage = `url(${imageUrl})`;
+
+        // Open the sidebar smoothly
+        sidebar.style.right = '0'; // Slide in the sidebar
+      });
+    });
+
+    // Close the sidebar when the close button is clicked
+    closeSidebarBtn.addEventListener('click', function () {
+      sidebar.style.right = '-100%'; // Slide out the sidebar
+    });
+
+</script>

@@ -1,0 +1,131 @@
+<%-include("partials/userHeader.ejs", { title: "Dashboard", user }) %>
+
+<style>
+  body {
+    background-color: #0e0e0e;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .dashboard-container {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .dashboard-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #82b1ff, #00e5ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dashboard-header p {
+    font-size: 1.1rem;
+    color: #aaa;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .dashboard-card {
+    background: rgba(30, 30, 60, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    padding: 1.8rem;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .dashboard-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 40px rgba(0, 255, 255, 0.15);
+  }
+
+  .dashboard-card h5 {
+    color: #00e5ff;
+    margin-bottom: 0.75rem;
+  }
+
+  .dashboard-card p {
+    color: #ccc;
+    font-size: 0.95rem;
+  }
+
+  .btn-glass {
+    margin-top: 1rem;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border: 1px solid #444;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: 0.2s ease;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .btn-glass:hover {
+    background-color: #00e5ff;
+    color: #0e0e0e;
+  }
+  .homeChatBot {
+    position: fixed;
+    z-index: 999;
+    bottom: 100px;
+
+}
+</style>
+
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h2>Welcome, <%= user.username %> 👋</h2>
+    <p>Here’s your personal space — manage your content and activity</p>
+  </div>
+
+  <div class="card-grid">
+    <!-- Profile Summary -->
+    <div class="dashboard-card">
+      <h5>Profile Summary</h5>
+      <p>Email: <%= user.email %></p>
+      <p>Joined: <%= new Date(user.createdAt).toDateString() %></p>
+      <a href="/user/profile" class="btn-glass">View Profile</a>
+    </div>
+
+    <!-- My Posts -->
+    <div class="dashboard-card">
+      <h5>My Posts</h5>
+      <p>Check and manage your event posts</p>
+      <a href="/posts/mine" class="btn-glass">Manage Posts</a>
+    </div>
+
+    <!-- Add New Post -->
+    <div class="dashboard-card">
+      <h5>Add New Event</h5>
+      <p>Share your latest club activity</p>
+      <a href="/posts/addPosts" class="btn-glass">Create Post</a>
+    </div>
+
+    <!-- Analytics -->
+    <div class="dashboard-card">
+      <h5>Stats</h5>
+      <p>👍 Likes received: <%= user.totalLikes || 0 %></p>
+      <p>💬 Comments posted: <%= user.totalComments || 0 %></p>
+    </div>
+  </div>
+</div>
+<div class="homeChatBot">
+    <%-include("partials/chatBot.ejs") %>
+</div>
+<%-include("partials/footer") %>

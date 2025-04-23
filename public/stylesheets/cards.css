@@ -1,0 +1,88 @@
+.cards-section h1,
+.cards-section h5,
+.cards-section p,
+.cards-section small,
+.cards-section .fw-semibold {
+    color: #e0e0e0;
+}
+
+.cards-section .styled-card {
+    background-color: rgba(25, 25, 50, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
+}
+
+.cards-section .styled-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.15);
+}
+
+.cards-section .image-box img {
+    width: 100%;
+    border-radius: 0.75rem;
+    transition: transform 0.4s ease;
+}
+
+.cards-section .styled-card:hover .image-box img {
+    transform: scale(1.03);
+}
+
+.cards-section .badge {
+    font-size: 0.8rem;
+}
+
+.cards-section .text-primary {
+    color: #82b1ff !important;
+}
+
+.cards-section a.text-primary:hover {
+    color: #a3c9ff !important;
+}
+
+.cards-section .rounded-circle.bg-success {
+    background-color: #2e7d32 !important;
+}
+
+.cards-section .text-muted {
+    color: #aaa !important;
+}
+
+/* Masonry Layout */
+.cards-section .row {
+    column-count: 1;
+    column-gap: 1.5rem;
+}
+
+@media (min-width: 576px) {
+    .cards-section .row {
+        column-count: 2;
+    }
+}
+
+@media (min-width: 992px) {
+    .cards-section .row {
+        column-count: 3;
+    }
+}
+
+.cards-section .col {
+    display: inline-block;
+    width: 100%;
+    break-inside: avoid;
+}
+
+.cards-section h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    background: linear-gradient(90deg, #82b1ff, #00e5ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+

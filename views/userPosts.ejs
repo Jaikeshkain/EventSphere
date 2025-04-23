@@ -1,0 +1,168 @@
+<%-include("partials/userHeader.ejs", { title: "My Posts", user }) %>
+
+<style>
+  body {
+    background-color: #0f0f0f;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .my-posts-container {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .page-title {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .page-title h2 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    background: linear-gradient(90deg, #82b1ff, #00e5ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .posts-masonry {
+    column-count: 1;
+    column-gap: 1.5rem;
+  }
+
+  @media (min-width: 576px) {
+    .posts-masonry {
+      column-count: 2;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .posts-masonry {
+      column-count: 3;
+    }
+  }
+
+  .post-card {
+    background: rgba(25, 25, 50, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+
+  .post-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.15);
+  }
+
+  .post-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .post-card:hover img {
+    transform: scale(1.03);
+  }
+
+  .post-card h5 {
+    color: #00e5ff;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .post-meta {
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-bottom: 0.8rem;
+  }
+
+  .post-content {
+    color: #ccc;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-footer .badges span {
+    background: #222;
+    color: #82b1ff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    margin-right: 6px;
+  }
+
+  .card-footer a {
+    text-decoration: none;
+    color: #00e5ff;
+    font-size: 0.9rem;
+    transition: 0.2s ease;
+  }
+
+  .card-footer a:hover {
+    color: #aaf0ff;
+    text-decoration: underline;
+  }
+
+  .homeChatBot {
+    position: fixed;
+    z-index: 999;
+    bottom: 100px;
+
+}
+</style>
+
+<div class="my-posts-container">
+  <div class="page-title">
+    <h2>My Event Posts</h2>
+  </div>
+
+  <% if (posts && posts.length > 0) { %>
+    <div class="posts-masonry">
+      <% posts.forEach(post => { %>
+        <div class="post-card">
+          <% if (post.images?.length) { %>
+            <img src="<%= post.images[0].url %>" alt="Post image">
+          <% } else { %>
+            <img src="/images/placeholder.png" alt="No image">
+          <% } %>
+
+          <h5><%= post.title || "Untitled" %></h5>
+          <div class="post-meta">Posted on: <%= new Date(post.createdAt).toDateString() %></div>
+
+          <div class="post-content"><%= post.content?.slice(0, 250) || "No description" %>...</div>
+
+          <div class="card-footer">
+            <div class="badges">
+              <span>👍 <%= post.likes || 0 %></span>
+              <span>💬 <%= post.comments?.length || 0 %></span>
+            </div>
+            <a href="/posts/<%= post._id %>">View</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p class="text-center text-muted">You haven't posted anything yet.</p>
+  <% } %>
+</div>
+<div class="homeChatBot">
+    <%-include("partials/chatBot.ejs") %>
+</div>
+<%-include("partials/footer") %>

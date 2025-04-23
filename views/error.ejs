@@ -1,0 +1,5 @@
+<%- include("partials/header.ejs", { title: "Error" , error: error }) %>
+<h1>Something went wrong</h1>
+<p><%=error %></p>
+<a href="/" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: blue; color: #fff; font-size: 18px; font-weight: 500px;" >Go Home</a>
+<%-include("partials/footer.ejs") %>

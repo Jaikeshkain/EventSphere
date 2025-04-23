@@ -1,0 +1,221 @@
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+.category-section {
+    padding: 30px 20px;
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Horizontal scroll container */
+.scrolling-wrapper {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scroll-snap-type: x mandatory;
+}
+
+.scrolling-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scrolling-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.scrolling-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Event Card Styles */
+.category-section .event-card {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    position: relative;
+    width: 250px;
+    height: 360px;
+    overflow: hidden;
+    border-radius: 1rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: width 0.5s ease, box-shadow 0.4s ease;
+    transition-delay: 1s;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+}
+
+.category-section .event-card:hover {
+    width: 480px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+}
+
+.category-section .event-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
+    transition: transform 0.5s ease;
+    transition-delay: 1s;
+}
+
+.category-section .event-card:hover .event-image {
+    transform: none;
+}
+
+.category-section .event-details {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 230px;
+    height: 100%;
+    padding: 1rem;
+    color: #f1f1f1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    transition-delay: 0s;
+}
+
+.category-section .event-card:hover .event-details {
+    opacity: 1;
+}
+
+.category-section .event-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.category-section .event-meta {
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.category-section .event-details p {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    margin-top: 1rem;
+}
+
+.category-section .event-timer {
+    position: absolute;
+    bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 250px;
+    height: 50px;
+    text-align: center;
+    bottom: -10px;
+    color: #ffc107;
+    font-weight: 600;
+}
+
+
+
+</style>
+
+<div class="category-section">
+    <h1 class="text-center mb-4">Events By Category</h1>
+
+    <% const allowedCategories=["Free", "Paid" , "Recruiments" ]; %>
+
+        <% allowedCategories.forEach(category=> { %>
+            <% if (postCategory[category]?.length> 0) { %>
+                <div style="background-color: rgba(0, 0, 0, 0.6);padding: 20px 20px; margin-bottom: 20px;border-radius: 1rem;" >
+                <h2 class="mb-3">
+                    <%= category %>
+                </h2>
+                <div class="scrolling-wrapper">
+                    <% postCategory[category].reverse().forEach(event=> { %>
+                        <div class="event-card">
+                            <img src="<%= event.images[0]?.url %>" alt="Event Image" class="event-image">
+                            <div class="event-details">
+                                <div class="event-title mb-2">
+                                    <%= event.title %>
+                                </div>
+                                <div class="event-meta mb-1">
+                                    <i class="bi bi-calendar-event"></i>
+                                    <%= new Date(event.endDate).toDateString() %>
+                                </div>
+                                <div class="event-meta mb-1"><i class="bi bi-geo-alt"></i> Auditorium Hall</div>
+                                <p class="small mt-2">
+                                    <%= event.content %>
+                                </p>
+
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <% if (event.userProfile) { %>
+                                        <img src="<%= event.userProfile %>" alt="User" class="rounded-circle border"
+                                            width="36" height="36">
+                                    <% } else { %>
+                                        <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center fw-bold"
+                                        style="width: 36px; height: 36px;">
+                                            <%= event.author?.username?.charAt(0).toUpperCase() || '?' %>
+                                        </div>
+                                    <% } %>
+                                    <div>
+                                        <div class="fw-semibold">
+                                            <%= event.author?.username || 'Unknown' %>
+                                        </div>
+                                        <small class="event-meta">
+                                            <%= event.clubname || 'No Club' %>
+                                        </small>
+                                    </div>
+                                </div>
+                                <a href="/posts/<%=event._id %>" class="text-primary text-decoration-underline" style="margin-top: 50px;" >Read More</a>
+                            </div>
+                            <!-- Countdown Timer -->
+                            <div class="event-timer text-warning fw-semibold mb-2" data-end-date="<%= event.endDate %>">
+                                Time left: <span class="countdown">Loading...</span>
+                            </div>
+
+                        </div>
+                    <% }) %>
+                </div>
+                </div>
+            <% } %>
+        <% }) %>
+</div>
+
+
+
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+<script>
+    function updateCountdowns() {
+        const now = new Date().getTime();
+
+        document.querySelectorAll('.event-timer').forEach(timer => {
+            const endDate = new Date(timer.getAttribute('data-end-date')).getTime();
+            const distance = endDate - now;
+
+            const countdown = timer.querySelector('.countdown');
+
+            if (distance <= 0) {
+                countdown.innerText = 'Event Ended';
+                countdown.style.color = '#f55';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            countdown.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        });
+    }
+
+    setInterval(updateCountdowns, 1000);
+    updateCountdowns(); // initial run
+</script>

@@ -1,0 +1,8 @@
+.navbar {
+    min-height: 70px;
+    background-color: rgb(255, 255, 255);
+}
+
+ul{
+    gap: 30px;
+}

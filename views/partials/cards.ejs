@@ -1,0 +1,166 @@
+<style>
+  .cards-section {
+    padding: 3rem 2rem;
+  }
+
+  .cards-section h1,
+  .cards-section h5,
+  .cards-section p,
+  .cards-section small,
+  .cards-section .fw-semibold {
+    color: #e0e0e0;
+  }
+
+  .cards-section .styled-card {
+    background: rgba(25, 25, 50, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+
+  .cards-section .styled-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.15);
+  }
+
+  .cards-section .image-box img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .cards-section .styled-card:hover .image-box img {
+    transform: scale(1.03);
+  }
+
+  .cards-section .text-primary {
+    color: #00e5ff !important;
+  }
+
+  .cards-section .text-primary:hover {
+    color: #aaf0ff !important;
+  }
+
+  .cards-section .badge {
+    font-size: 0.75rem;
+    border-radius: 0.6rem;
+    padding: 5px 10px;
+  }
+
+  .cards-section .text-muted {
+    color: #aaa !important;
+  }
+
+  .cards-section .masonry-row {
+    column-count: 1;
+    column-gap: 1.5rem;
+  }
+
+  @media (min-width: 576px) {
+    .cards-section .masonry-row {
+      column-count: 2;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .cards-section .masonry-row {
+      column-count: 3;
+    }
+  }
+
+  .cards-section .card-edit {
+    break-inside: avoid;
+    width: 100%;
+  }
+</style>
+
+<div class="cards-section container">
+  <h1 class="text-center mb-4">Latest Events</h1>
+
+  <% if (posts?.length> 0) { %>
+    <div class="masonry-row">
+      <% posts?.reverse().slice(0, postLen).forEach(post=> { %>
+        <% if (post?.images?.length> 0) { %>
+          <div class="card-edit">
+            <div class="styled-card">
+              <h5 class="fw-bold mb-1"
+                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                <%= post.title || 'Untitled' %>
+              </h5>
+
+              <small class="text-muted d-block mb-2">Posted on: <%= new Date(post.createdAt).toDateString() %></small>
+              <small class="text-muted d-block mb-2" style="position: absolute; right: 15px; top: 3px;">
+                <%= post.category %>
+              </small>
+
+              <a href="<%= post.registerlink %>" target="_blank" rel="noopener noreferrer"
+                class="text-primary text-decoration-underline mb-2 d-inline-block">Register</a>
+
+              <div class="image-box mb-3">
+                <img src="<%= post.images[0].url %>" alt="Post Image">
+              </div>
+
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <% if (post.userProfile) { %>
+                  <img src="<%= post.userProfile %>" alt="User" class="rounded-circle border" width="36" height="36">
+                  <% } else { %>
+                    <div
+                      class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center fw-bold"
+                      style="width: 36px; height: 36px;">
+                      <%= post.author?.username?.charAt(0).toUpperCase() || '?' %>
+                    </div>
+                    <% } %>
+                      <div>
+                        <div class="fw-semibold">
+                          <%= post.author?.username || 'Unknown' %>
+                        </div>
+                        <small class="text-muted">
+                          <%= post.club || 'No Club' %>
+                        </small>
+                      </div>
+              </div>
+
+              <p class="mb-2 text-muted"
+                style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                <%= post.content || 'No description available.' %>
+              </p>
+
+              <div class="event-timer text-warning fw-semibold mb-2" data-end-date="<%= post.endDate %>">
+                Time left: <span class="countdown">Loading...</span>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center mt-auto">
+                <div class="d-flex gap-2">
+                  <span class="badge bg-success">👍 <%= post.likes %></span>
+                  <span class="badge bg-danger">👎 <%= post.dislikes %></span>
+                </div>
+                <a href="/posts/<%= post._id %>" class="text-primary text-decoration-underline">Read More</a>
+              </div>
+
+              <div class="mt-2 small text-muted">
+                <% post.comments?.slice(0, 2).forEach(comment=> { %>
+                  <p><strong>
+                      <%= comment.username %>:
+                    </strong>
+                    <%= comment.text %>
+                  </p>
+                  <% }) %>
+              </div>
+            </div>
+          </div>
+          <% } %>
+            <% }) %>
+    </div>
+    <% } else { %>
+      <p class="text-center text-secondary">No posts found</p>
+      <% } %>
+</div>

@@ -1,0 +1,129 @@
+<%- include('partials/header', { title: 'Home' , user: user }) %>
+  <style>
+    body {
+      background: url("/images/13086.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: #f1f1f1;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+    color: #f1f1f1 !important;
+  }
+    .auto-type {
+      color: #4caf50;
+      text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    }
+
+    a.btn.club-button {
+  color: #17ebe8 !important;
+  background-color: transparent !important;
+  border: 1px solid #17ebe8;
+}
+
+a.btn.club-button:hover {
+  background-color: #17ebe8 !important;
+  color: black !important;
+}
+
+    .section{
+      margin-top: 50px;
+    }
+  </style>
+
+  <!-- Section 1: Hero -->
+  <div class="hero-section text-center d-flex align-items-center justify-content-center vh-100 text-white"
+    style="background-image: url('/images/herosection.png'); background-size: fill; background-position: center; position: relative;">
+    <div style="background-color: rgba(0, 0, 0, 0.6); position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    </div>
+    <div class="container" style="position: relative">
+      <h1 class="display-3 fw-bold mb-4">Welcome to <span class="auto-type"></span></h1>
+      <p class="lead mb-4">Discover the latest club events, announcements, and more!</p>
+      <% if (user) { %>
+        <p class="mb-4">
+          Hello, <span class="username fw-bold">
+            <%= user.username %>
+          </span>! Welcome back!
+        </p>
+        <a class="btn btn-primary btn-lg me-2" href="/user/profile"><i class="fas fa-user"></i> Go to your profile</a>
+        <% } else { %>
+          <p class="mb-4">
+            Please
+            <a class="btn btn-primary btn-lg me-2" href="/auth/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            or
+            <a class="btn btn-warning btn-lg" href="/auth/register"><i class="fas fa-user-plus"></i> Register</a>
+            to continue.
+          </p>
+          <% } %>
+    </div>
+  </div>
+  <!-- Section 2/3/4: Posts -->
+  <!-- Section 2: Best Wishes -->
+   <%-include("partials/bestWishes.ejs") %>
+  <!-- Section 3: Club Categories -->
+  <div class="container section text-center" style="margin-top: 50px;">
+    <h1 class="text-center mb-4">Explore By Club</h1>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="/clubs/tech" class="btn club-button">Tech Club</a>
+      <a href="/clubs/art" class="btn club-button">Art Society</a>
+      <a href="/clubs/music" class="btn club-button">Music Club</a>
+      <a href="/clubs/literature" class="btn club-button">Gaming Club</a>
+      <a href="/clubs/robotics" class="btn club-button">Photography Club</a>
+    </div>
+  </div>
+
+  <!-- Section 4: Latest Events -->
+  <div class="cards-section">
+    <%- include("partials/cards.ejs", { postLen: 6 }) %>
+
+    <!-- View All Button -->
+    <div class="text-center mt-4">
+      <a href="/posts" class="btn btn-outline-light btn-lg px-4">
+        View All Posts <i class="bi bi-arrow-right ms-2"></i>
+      </a>
+    </div>
+  </div>
+        
+
+<!-- Section 5: Category -->
+<div class="category-section" style="margin-top: 50px;">
+  <%- include("partials/categoryCard.ejs") %>
+</div>
+  <!-- Section 6: About -->
+  <div class="container section text-center">
+    <h2>About EventSphere</h2>
+    <p class="text-muted">
+      EventSphere is your go-to portal for staying updated with all the buzz on campus. From club meetings and cultural
+      nights to hackathons and art showcases – we bring you closer to the action. Whether you're an organizer or an
+      enthusiast, this platform is built for you.
+    </p>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+  <script src="/javascripts/autotype.js"></script>
+
+  <script>
+    const cards = document.querySelectorAll(".card-edit");
+
+    cards.forEach(card => {
+      const cardElement = card.querySelector(".styled-card");
+
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const moveX = (x - rect.width / 2) / 30;
+        const moveY = (y - rect.height / 2) / 30;
+
+        cardElement.style.backgroundPosition = `${50 + moveX}% ${50 + moveY}%`;
+      });
+
+      card.addEventListener("mouseleave", () => {
+        cardElement.style.backgroundPosition = "center center";
+      });
+    });
+  </script>
+
+  <%- include("partials/footer") %>

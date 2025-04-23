@@ -1,0 +1,151 @@
+<%- include("partials/header.ejs", { title: post.title, user }) %>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            background: url("/images/13086.jpg") no-repeat center center fixed;
+            background-size: cover;
+            color: #e0e0e0;
+        }
+
+        .post-container-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            min-width: 500px;
+        }
+
+        .post-container {
+            background-color: rgba(30, 30, 30, 0.9);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .post-image img {
+            
+            object-fit:fill;
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            max-height: 500px;
+            width: 100%;
+        }
+
+        .post-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-meta {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 1rem;
+        }
+
+        .post-content {
+            color: #ddd;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .btn-action {
+            margin-right: 10px;
+        }
+
+        .action-buttons {
+            margin-top: 1.5rem;
+        }
+
+        .post-author {
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: #ccc;
+        }
+
+        .badge {
+            font-size: 0.85rem;
+        }
+
+        .homeChatBot{
+    position: fixed;
+    z-index: 999;
+    bottom: 100px;
+    width: 600px;
+  }
+    </style>
+
+    <div class="container my-5 post-container-wrapper">
+        <div class="post-container row g-4 align-items-start">
+            <!-- Left Column: Image -->
+            <div class="col-md-6 post-image">
+                <% if (post?.images?.length> 0) { %>
+                    <img src="<%= post?.images[0].url %>" alt="Post Image">
+                <% } else { %>
+                        <div class="text-center text-muted">No image available</div>
+                <% } %>
+            </div>
+
+            <!-- Right Column: Content -->
+            <div class="col-md-6">
+                <div class="post-title">
+                    <%= post?.title || 'Untitled' %>
+                </div>
+
+                <div class="post-meta">
+                    Posted on <%= new Date(post?.createdAt).toDateString() %><br>
+                    Ends on <%= new Date(post?.endDate).toDateString() %>
+                        <span class="badge bg-success ms-2">👍 <%= post?.likes %></span>
+                        <span class="badge bg-danger ms-1">👎 <%= post?.dislikes %></span>
+                </div>
+                <!-- register Button -->
+                <a href="<%= post.registerlink %>" class="text-primary text-decoration-underline" style="margin-bottom: 7px;" >Register</a>
+                <div class="post-content mb-3">
+                    <%= post?.content || 'No description available.' %>
+                </div>
+
+                <div class="post-author d-flex align-items-center">
+                    <% if (post?.userProfile) { %>
+                        <img src="<%= post?.userProfile %>" class="rounded-circle me-2" width="40" height="40"
+                            alt="Author">
+                        <% } else { %>
+                            <div class="rounded-circle bg-success d-flex justify-content-center align-items-center text-white fw-bold me-2"
+                                style="width: 40px; height: 40px;">
+                                <%= post?.author?.username?.charAt(0).toUpperCase() || '?' %>
+                            </div>
+                            <% } %>
+                                <div>
+                                    <div class="fw-semibold">
+                                        <%= post?.author?.username || 'Unknown' %>
+                                    </div>
+                                    <small class="post-meta">
+                                        <%= post?.clubname || 'No Club' %>
+                                    </small>
+                                </div>
+                </div>
+
+                <% if(user?._id.toString()==post?.author?._id.toString()){ %>
+                    <div class="action-buttons">
+                        <a href="/posts/<%= post._id %>/edit" class="btn btn-outline-warning btn-action" target="_blank" rel="noopener noreferrer">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                        <form action="/posts/<%= post._id %>/delete" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                    <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <div class="homeChatBot">
+    <%-include("partials/chatBot.ejs") %>
+</div>
+
+    <%- include("partials/footer.ejs") %>

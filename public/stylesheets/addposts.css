@@ -1,0 +1,160 @@
+body{
+    background-color: #000;
+}
+.formAreabg {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    background: url("/images/13086.jpg") no-repeat center center fixed;
+        background-size: cover;
+}
+
+.formArea {
+    background-color: #1e1e1e;
+    margin: 20px 0px;
+    padding: 20px 50px;
+    width: 800px;
+    color: #f1f1f1;
+    border: 1px solid #333;
+    border-radius: 10px;
+}
+
+.title {
+    margin-bottom: 40px;
+    color: #ffffff;
+}
+
+.imageArea {
+    display: flex;
+    gap: 20px;
+}
+
+#imagePreview {
+    display: none;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.dropbox {
+    width: 100%;
+    min-width: 300px;
+    height: 250px;
+    border: 2px dashed #555;
+    border-radius: 10px;
+    background-color: #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #bbb;
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s;
+}
+
+.dropbox:hover {
+    border-color: #82b1ff;
+    color: #82b1ff;
+}
+
+.dropbox i {
+    font-size: 48px;
+    margin-bottom: 10px;
+    color: #82b1ff;
+}
+
+.dropbox span {
+    font-size: 16px;
+    color: #ccc;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    margin: 10px 0px;
+    font-weight: 600;
+    color: #ddd;
+}
+
+/* Input & Textarea Styling for Dark Theme */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select,option {
+    background-color: #2b2b2b;
+    color: #f1f1f1;
+    border: 1px solid #444;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+input[type="date"] {
+    background-color: #2b2b2b;
+    color: #f1f1f1;
+    border: 1px solid #444;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+input[type="date"]:focus {
+    outline: none;
+    background-color: #333;
+    color: #fff;
+    border-color: #bb00ff;
+    box-shadow: 0 0 0 0.2rem rgba(162, 89, 198, 0.25);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    background-color: #333;
+    color: #fff;
+    border-color:#bb00ff;
+    box-shadow: 0 0 0 0.2rem rgba(162, 89, 198, 0.25);
+}
+
+.btn1 {
+    padding: 10px 30px;
+    font-size: 20px;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    background-color: #bb00ff;
+    color: #fff;
+    transition: 0.2s ease;
+}
+
+.btn1:hover {
+    background-color: #5cb5f0;
+    color: #000;
+}
+
+@media (max-width: 900px) {
+    .formArea {
+        width: 500px;
+    }
+
+    .btn1 {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+}
+
+.homeChatBot {
+    position: fixed;
+    z-index: 999;
+    bottom: 100px;
+
+}

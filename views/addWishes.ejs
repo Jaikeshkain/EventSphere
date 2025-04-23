@@ -1,0 +1,155 @@
+<%-include("partials/header.ejs", { title, user }) %>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+    ::placeholder {
+  color: #f1f1f1;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: #f1f1f1;
+}
+
+::-ms-input-placeholder {
+  color: #f1f1f1;
+}
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+  }
+
+  .dark-section {
+    background: url("/images/13086.jpg") no-repeat center center fixed;
+    background-size: cover;
+    color: #f1f1f1;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 1rem;
+  }
+
+  .form-card {
+    background: rgba(30, 30, 60, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease;
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+  }
+
+  .form-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .form-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #f1f1f1;
+  }
+
+  .form-control,
+  .form-control:focus {
+    background-color: rgba(42, 42, 66, 0.9);
+    color: white;
+    border: 1px solid #444;
+    border-radius: 10px;
+    box-shadow: none;
+  }
+
+  .btn-primary {
+    background: #6c63ff;
+    border: none;
+    font-weight: 600;
+    padding: 0.75rem;
+    border-radius: 10px;
+    transition: 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: #5249d8;
+  }
+
+  .preview-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 1rem;
+    border: 2px solid #888;
+    display: none;
+  }
+
+  .alert {
+    max-width: 520px;
+    margin: 1rem auto;
+    border-radius: 10px;
+  }
+
+.homeChatBot {
+    position: fixed;
+    z-index: 999;
+    bottom: 100px;
+
+}
+
+</style>
+
+<% if (error && error.length > 0) { %>
+  <div class="alert alert-danger text-center"><%= error %></div>
+<% } %>
+<% if (success) { %>
+  <div class="alert alert-success text-center"><%= success %></div>
+<% } %>
+
+<div class="dark-section">
+  <form class="form-card" method="POST" action="/auth/addWishes" enctype="multipart/form-data">
+    <h3 class="mb-4 text-center">✨ Share Your Club Story</h3>
+
+    <div class="mb-3">
+      <label for="club" class="form-label">Club Name</label>
+      <input type="text" class="form-control" id="club" name="club" placeholder="e.g. Coding Club" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="message" class="form-label">Best Wishes Message</label>
+      <textarea class="form-control" id="message" name="message" rows="4" placeholder="Write something uplifting..." required></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label">Upload Image</label>
+      <input class="form-control" type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)" required>
+      <img id="preview" class="preview-img" />
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 mt-3">📤 Post Story</button>
+  </form>
+</div>
+
+<div class="homeChatBot">
+  <%-include("partials/chatBot.ejs") %>
+</div>
+
+<%-include("partials/footer.ejs") %>
+
+<script>
+  function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      const output = document.getElementById('preview');
+      output.src = reader.result;
+      output.style.display = 'block';
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
+</script>

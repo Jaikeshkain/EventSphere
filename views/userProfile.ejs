@@ -1,0 +1,147 @@
+<%-include("partials/userHeader.ejs", { title: "User Profile", user }) %>
+
+<style>
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .profile-container {
+    padding: 3rem 2rem;
+    max-width: 1000px;
+    margin: auto;
+  }
+
+  .profile-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .profile-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #00e5ff;
+  }
+
+  .profile-header p {
+    font-size: 1.1rem;
+    color: #aaa;
+  }
+
+  .profile-card {
+    background: rgba(30, 30, 60, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    padding: 2rem;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+  }
+
+  .profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 40px rgba(0, 255, 255, 0.15);
+  }
+
+  .profile-image {
+    max-width: 150px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+  }
+
+  .profile-card h5 {
+    color: #00e5ff;
+  }
+
+  .profile-card p {
+    color: #ccc;
+    font-size: 0.95rem;
+  }
+
+  .btn-glass {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid #444;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: 0.2s ease;
+  }
+
+  .btn-glass:hover {
+    background-color: #00e5ff;
+    color: #121212;
+  }
+
+  .social-links a {
+    color: #ccc;
+    margin: 0 0.5rem;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .social-links a:hover {
+    color: #00e5ff;
+    transform: scale(1.2);
+    text-shadow: 0 0 8px #00e5ff;
+  }
+
+  .homeChatBot {
+    position: fixed;
+    z-index: 999;
+    bottom: 100px;
+
+}
+</style>
+
+<div class="profile-container">
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <h2>Welcome to your Profile, <%= user.username %> 👋</h2>
+    <p>Here's an overview of your profile and recent activity</p>
+  </div>
+
+  <!-- Profile Information Card -->
+  <div class="profile-card">
+    <div class="text-center">
+      <img src="<%= user.profileImage || '/images/default-avatar.jpg' %>" alt="User Profile Picture" class="profile-image">
+      <h5><%= user.username %></h5>
+      <p><%= user.email %></p>
+      <p>Member since: <%= new Date(user.createdAt).toDateString() %></p>
+      <a href="/user/edit" class="btn-glass">Edit Profile</a>
+    </div>
+  </div>
+
+  <!-- Social Media Links -->
+  <div class="social-links text-center mt-4">
+    <% if (user.github) { %>
+      <a href="<%= user.github %>" aria-label="GitHub"><i class="fab fa-github"></i></a>
+    <% } %>
+    <% if (user.linkedin) { %>
+      <a href="<%= user.linkedin %>" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <% } %>
+    <% if (user.twitter) { %>
+      <a href="<%= user.twitter %>" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+    <% } %>
+  </div>
+
+  <!-- Recent Posts Section -->
+  <div class="mt-5">
+    <h3 class="text-center mb-4">Your Recent Posts</h3>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <% user.posts?.forEach(post => { %>
+        <div class="col">
+          <div class="dashboard-card">
+            <h5><%= post.title || 'Untitled' %></h5>
+            <p><%= post.content.substring(0, 100) + '...' %></p>
+            <a href="/posts/<%= post._id %>" class="btn-glass">Read More</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+<div class="homeChatBot">
+    <%-include("partials/chatBot.ejs") %>
+</div>
+<%-include("partials/footer") %>
